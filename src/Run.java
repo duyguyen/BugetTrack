@@ -1,6 +1,12 @@
 import base.Base;
 import calculation.Statistic;
 import factory.Factory;
+import generic.Generic;
+import generic.GenericBase;
+import generic.GenericExpense;
+import generic.GenericIncome;
+import item.Expense;
+import item.Income;
 import item.TypeExpense;
 import item.TypeMoneyFlow;
 import price.Amount;
@@ -59,7 +65,41 @@ public class Run {
 
     public void print() {
         System.out.println();
-//        System.out.println(statistic.calculateGroceryFund(25));
-        System.out.println("Hello");
+        System.out.println(statistic.getTotalExpense());
+
+
+
+
+
+
+
+
+
+
+
+       /* ArrayList<Base> expenses = new ArrayList<>();
+        ArrayList<Base> incomes = new ArrayList<>();
+
+        for (Base item: items){
+            if (item.getTypeMoneyFlow().isExpense()){
+                expenses.add(item);
+            }else {
+                incomes.add(item);
+            }
+        }
+
+
+        Generic g = new GenericExpense();
+        Generic i = new GenericIncome();
+
+        System.out.println(test(incomes, i));*/
+    }
+    public <T extends Base> double test(ArrayList<T> items, Generic<T> g){
+        double total = 0;
+        for (T item: items){
+            total += g.total(item);
+        }
+
+        return total;
     }
 }

@@ -2,7 +2,7 @@ package item;
 
 import base.Base;
 
-public class Expense extends Base {
+public class Expense extends Base{
 
     // == constance variable ==
 
