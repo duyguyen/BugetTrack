@@ -1,24 +1,25 @@
-import base.Base;
 import calculation.Statistic;
+import category.Category;
 import factory.Factory;
+import generic.AddItemToCategory;
 import generic.Generic;
-import generic.GenericBase;
-import generic.GenericExpense;
-import generic.GenericIncome;
-import item.Expense;
-import item.Income;
+import item.Base;
+import item.CategoryType;
 import item.TypeExpense;
-import item.TypeMoneyFlow;
 import price.Amount;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Run {
 
     // == constance variables ==
-    private ArrayList<Base> items;
+    private ArrayList<Base> items = new ArrayList<>();
     private Factory factory;
     private Statistic statistic;
+    private ArrayList<Category> categories = new ArrayList<>();
+
+    private boolean addItem = true;
 
     // == constructor ==
     public Run() {
@@ -28,10 +29,9 @@ public class Run {
     // == init ==
     private void init() {
         factory = new Factory();
-        items = new ArrayList<>();
         generateItem();
+        categories = factory.createCategories();
         statistic = new Statistic(items);
-
 
     }
 
@@ -44,62 +44,52 @@ public class Run {
 
     // == public methods ==
     public void generateItem() {
-        Base homeMortgage = factory.createItem(TypeExpense.FIXED, "Home mortgage", Amount.HOME_MORTGAGE,
-                TypeMoneyFlow.EXPENSE);
-        Base carInsurance = factory.createItem(TypeExpense.FIXED, "Car insurance", Amount.CAR_INSURANCE,
-                TypeMoneyFlow.EXPENSE);
-        Base mobile = factory.createItem(TypeExpense.FIXED, "Mobile", Amount.MOBILE,
-                TypeMoneyFlow.EXPENSE);
-        Base lunch = factory.createItem(TypeExpense.NOT_FIXED, "Lunch", Amount.LUNCH,
-                TypeMoneyFlow.EXPENSE);
-        Base salary = factory.createItem(TypeExpense.NOT_FIXED, "salary", Amount.SALARY,
-                TypeMoneyFlow.INCOME);
+        Base homeMortgage = factory.createItem(TypeExpense.FIXED, "Home mortgage", Amount.HOME_MORTGAGE);
+
+        Base carInsurance = factory.createItem(TypeExpense.FIXED, "Car insurance", Amount.CAR_INSURANCE);
+
+        Base mobile = factory.createItem(TypeExpense.FIXED, "Mobile", Amount.MOBILE);
+
+        Base lunch = factory.createItem(TypeExpense.NOT_FIXED, "Lunch", Amount.LUNCH);
+        lunch.setCategoryType(CategoryType.NECESSITY);
+
+        Base cloths = factory.createItem(TypeExpense.NOT_FIXED, "cloths", Amount.CLOTHS);
+        cloths.setCategoryType(CategoryType.LIFESTYLE_CHOICE);
+
+        Base salary = factory.createItem("salary", Amount.SALARY);
 
         items.add(homeMortgage);
         items.add(carInsurance);
         items.add(mobile);
         items.add(lunch);
+        items.add(cloths);
         items.add(salary);
 
     }
 
     public void print() {
-        System.out.println();
-        System.out.println(statistic.getTotalExpense());
+        Scanner scanner = new Scanner(System.in);
 
 
+        while(addItem){
+            System.out.println("Add item");
+        }
 
 
+    }
 
+    // == private methods ==
 
+    private Category sortCategory(CategoryType categoryType) {
 
+        Category cat = new Category();
 
-
-
-
-       /* ArrayList<Base> expenses = new ArrayList<>();
-        ArrayList<Base> incomes = new ArrayList<>();
-
-        for (Base item: items){
-            if (item.getTypeMoneyFlow().isExpense()){
-                expenses.add(item);
-            }else {
-                incomes.add(item);
+        for (Category category : categories) {
+            if (categoryType == category.getCategoryType()) {
+                cat = category;
             }
         }
-
-
-        Generic g = new GenericExpense();
-        Generic i = new GenericIncome();
-
-        System.out.println(test(incomes, i));*/
+        return cat;
     }
-    public <T extends Base> double test(ArrayList<T> items, Generic<T> g){
-        double total = 0;
-        for (T item: items){
-            total += g.total(item);
-        }
 
-        return total;
-    }
 }

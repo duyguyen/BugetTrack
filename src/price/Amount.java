@@ -8,6 +8,7 @@ public class Amount {
     public static final double MOBILE = 164.0;
 
     public static final double LUNCH = 300;
+    public static final double CLOTHS = 350;
 
     public static final double SALARY = 2800.0;
 

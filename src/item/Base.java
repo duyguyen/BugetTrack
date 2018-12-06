@@ -1,4 +1,4 @@
-package base;
+package item;
 
 import item.TypeExpense;
 import item.TypeMoneyFlow;
@@ -6,17 +6,17 @@ import item.TypeMoneyFlow;
 public abstract class Base {
 
     // == constance variables ==
-    private TypeExpense typeExpense;
+
     private StringBuilder description;
     private StringBuilder date;
     private double amount;
     private StringBuilder nameItem;
     private TypeMoneyFlow typeMoneyFlow;
+    private CategoryType categoryType;
 
     // == constructor ==
-    public Base(TypeMoneyFlow typeMoneyFlow, TypeExpense typeExpense, String nameItem, double amount){
+    public Base(TypeMoneyFlow typeMoneyFlow, String nameItem, double amount){
         this.typeMoneyFlow = typeMoneyFlow;
-        this.typeExpense = typeExpense;
         this.nameItem = new StringBuilder(nameItem);
         this.amount = amount;
     }
@@ -25,10 +25,6 @@ public abstract class Base {
 
     public TypeMoneyFlow getTypeMoneyFlow() {
         return typeMoneyFlow;
-    }
-
-    public TypeExpense getTypeExpense() {
-        return typeExpense;
     }
 
     public StringBuilder getDescription() {
@@ -49,5 +45,13 @@ public abstract class Base {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public void setCategoryType(CategoryType categoryType) {
+        this.categoryType = categoryType;
+    }
+
+    public CategoryType getCategoryType() {
+        return categoryType;
     }
 }

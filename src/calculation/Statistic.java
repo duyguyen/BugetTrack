@@ -1,6 +1,7 @@
 package calculation;
 
-import base.Base;
+import item.Base;
+import item.Expense;
 
 import java.util.ArrayList;
 
@@ -72,9 +73,11 @@ public class Statistic {
 
         for (Base item : items) {
             if (item.getTypeMoneyFlow().isExpense()) {
-                if (item.getTypeExpense().isFixed()) {
+                Expense expense = (Expense) item;
+
+                if ((expense.getTypeExpense().isFixed())){
                     totalFixed += item.getAmount();
-                } else if (item.getTypeExpense().isNotFixed()) {
+                } else if (expense.getTypeExpense().isNotFixed()) {
                     totalNotFixed += item.getAmount();
                 }
             }
