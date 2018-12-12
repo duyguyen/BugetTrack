@@ -3,12 +3,14 @@ package item;
 import item.TypeExpense;
 import item.TypeMoneyFlow;
 
+import java.util.Date;
+
 public abstract class Base {
 
     // == constance variables ==
 
     private StringBuilder description;
-    private StringBuilder date;
+    private Date date;
     private double amount;
     private StringBuilder nameItem;
     private TypeMoneyFlow typeMoneyFlow;
@@ -31,7 +33,7 @@ public abstract class Base {
         return description;
     }
 
-    public StringBuilder getDate() {
+    public Date getDate() {
         return date;
     }
 

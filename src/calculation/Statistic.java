@@ -20,9 +20,6 @@ public class Statistic {
     public Statistic(ArrayList<Base> items) {
         this.items = items;
         init();
-
-
-        print();
     }
 
     // == init ==
@@ -37,12 +34,6 @@ public class Statistic {
 //        delivery.setGroceryFund();
 //    }
 
-    private void print() {
-        System.out.println("Total expense: " + totalExpense + " Total Income: " + totalIncome +
-               " FixedExpense: " + totalFixedExpense +
-                " NotFixedExpense: " + totalNotFixedExpense);
-    }
-
     // == public methods ==
 //    public double calculateGroceryFund(double percent){
 //        double convertToPercent = percent/100.0;
@@ -50,13 +41,13 @@ public class Statistic {
 //    }
 
     public double calculateLunchEachDay(){
-        double luchEachDay = 0;
+        double lunchEachDay = 0;
         for (Base item: items){
             if (item.getNameItem().toString().equalsIgnoreCase("lunch")){
-                luchEachDay = Math.round(item.getAmount() / 30.0);
+                lunchEachDay = Math.round(item.getAmount() / 30.0);
             }
         }
-        return luchEachDay;
+        return lunchEachDay;
     }
 
     public double calculateAfterFixedExpense(){

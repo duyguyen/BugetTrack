@@ -5,7 +5,7 @@ import item.CategoryType;
 
 import java.util.ArrayList;
 
-public class Category {
+public abstract class SpecificFund {
 
     // == constance variables ==
     private CategoryType categoryType;
@@ -13,16 +13,17 @@ public class Category {
     private ArrayList<Base> items = new ArrayList<>();
 
     // == constructor ==
-    public Category(CategoryType categoryType) {
+    public SpecificFund(CategoryType categoryType) {
         this.categoryType = categoryType;
-    }
-
-    public Category() {
     }
 
     // == public methods ==
     public void addItem(Base item){
         items.add(item);
+    }
+
+    public void setTotalMoney(double totalMoney) {
+        this.totalMoney = totalMoney;
     }
 
     public CategoryType getCategoryType() {

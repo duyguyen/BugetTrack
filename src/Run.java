@@ -1,13 +1,14 @@
 import calculation.Statistic;
-import category.Category;
 import factory.Factory;
-import generic.AddItemToCategory;
-import generic.Generic;
 import item.Base;
-import item.CategoryType;
 import item.TypeExpense;
-import price.Amount;
+import item.TypeMoneyFlow;
+import utilities.Utilities;
+import utilities.script_files.DoubleGeneric;
+import utilities.script_files.IntegerGeneric;
+import wrting_data.WriteData;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,79 +18,87 @@ public class Run {
     private ArrayList<Base> items = new ArrayList<>();
     private Factory factory;
     private Statistic statistic;
-    private ArrayList<Category> categories = new ArrayList<>();
+    private WriteData writeData;
+    private Utilities utilities;
+    Scanner scanner = new Scanner(System.in);
 
-    private boolean addItem = true;
 
     // == constructor ==
-    public Run() {
+    public Run() throws IOException{
         init();
     }
 
     // == init ==
-    private void init() {
-        factory = new Factory();
+    private void init() throws IOException{
+        utilities = new Utilities(new IntegerGeneric(), new DoubleGeneric());
+        writeData = new WriteData(items);
+        factory = new Factory(writeData);
         generateItem();
-        categories = factory.createCategories();
+
+
         statistic = new Statistic(items);
+
 
     }
 
     // == driver ==
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         Run run = new Run();
         run.print();
 
     }
 
     // == public methods ==
-    public void generateItem() {
-        Base homeMortgage = factory.createItem(TypeExpense.FIXED, "Home mortgage", Amount.HOME_MORTGAGE);
+    public void generateItem() throws IOException{
 
-        Base carInsurance = factory.createItem(TypeExpense.FIXED, "Car insurance", Amount.CAR_INSURANCE);
+        // clear item.txt
+//        writeData.clearItems();
 
-        Base mobile = factory.createItem(TypeExpense.FIXED, "Mobile", Amount.MOBILE);
+//        System.out.println("=====CREATE NEW ITEM=====\n");
+//
+//        System.out.print("Name: ");
+//        String nameItem = scanner.nextLine();
+//
+//        System.out.print("Type Money Flow: 1-EXPENSE : 2-INCOME ");
+//        TypeMoneyFlow typeMoneyFlow = utilities.buildTypeMoneyFlow(scanner.nextInt());
+//
+//        System.out.print("Amount: ");
+//        double amount = utilities.buildAmount(scanner.nextInt());
+//
+//        if (typeMoneyFlow == TypeMoneyFlow.EXPENSE){
+//            System.out.print("Type Expense: 1-FIXED : 2-NONE_FIXED ");
+//            TypeExpense typeExpense = utilities.buildTypeExpense(scanner.nextInt());
+//            System.out.println(typeExpense.toString());
+//
+//            items.add(factory.createItem(typeExpense,nameItem, amount));
+//        }
+//
+//        items.add(factory.createItem(nameItem, amount));
 
-        Base lunch = factory.createItem(TypeExpense.NOT_FIXED, "Lunch", Amount.LUNCH);
-        lunch.setCategoryType(CategoryType.NECESSITY);
-
-        Base cloths = factory.createItem(TypeExpense.NOT_FIXED, "cloths", Amount.CLOTHS);
-        cloths.setCategoryType(CategoryType.LIFESTYLE_CHOICE);
-
-        Base salary = factory.createItem("salary", Amount.SALARY);
-
-        items.add(homeMortgage);
-        items.add(carInsurance);
-        items.add(mobile);
-        items.add(lunch);
-        items.add(cloths);
-        items.add(salary);
 
     }
 
+
     public void print() {
-        Scanner scanner = new Scanner(System.in);
+        int count = 1;
 
 
-        while(addItem){
-            System.out.println("Add item");
+//        while(addItem){
+//            System.out.println("Add item");
+//        }
+
+        for (Base item : items) {
+            System.out.println(count + ". Name: " + item.getNameItem() + " ; Amount: " + item.getAmount());
+            count++;
         }
+
+
+
 
 
     }
 
     // == private methods ==
 
-    private Category sortCategory(CategoryType categoryType) {
-
-        Category cat = new Category();
-
-        for (Category category : categories) {
-            if (categoryType == category.getCategoryType()) {
-                cat = category;
-            }
-        }
-        return cat;
-    }
 
 }

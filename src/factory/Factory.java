@@ -1,33 +1,52 @@
 package factory;
 
-import category.Category;
+import category.LifeStyleChoices;
+import category.LongSaving;
+import category.NecessityFund;
+import category.SpecificFund;
 import item.*;
+import wrting_data.WriteData;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
 public class Factory {
 
+    // == constants ==
+    private WriteData writeData;
+
+    // == constructor ==
+    public Factory(WriteData writeData){
+        this.writeData = writeData;
+    }
+
     // == public methods ==
-    public Base createItem(TypeExpense typeExpense, String nameItem, double amount) {
-        return new Expense(typeExpense, nameItem, amount);
+    public Base createItem(TypeExpense typeExpense, String nameItem, double amount) throws IOException {
+        Base item = new Expense(typeExpense, nameItem, amount);
+        // write new item to items file
+        writeData.appendToItems(item.getDate(), item.getNameItem(), item.getTypeMoneyFlow(), ((Expense) item).getTypeExpense(), item.getAmount(), item.getDescription());
+        return item;
     }
 
-    public Base createItem(String nameItem, double amount) {
-        return new Income(nameItem, amount);
+    public Base createItem(String nameItem, double amount) throws IOException{
+        Base item = new Income(nameItem, amount);
+        // write new item to items file
+        writeData.appendToItems(item.getDate(), item.getNameItem(), item.getTypeMoneyFlow(), item.getAmount(), item.getDescription());
+        return item;
     }
 
-    public ArrayList<Category> createCategories(){
-        ArrayList<Category> categories = new ArrayList<>();
-        Category necessity = new Category(CategoryType.NECESSITY);
-        Category longTernSaving = new Category(CategoryType.LONGTERN_SAVING);
-        Category lifeStyleChoice = new Category(CategoryType.LIFESTYLE_CHOICE);
+    public SpecificFund createCategories(CategoryType categoryType) {
+        if (categoryType == CategoryType.NECESSITY) {
+            return new NecessityFund();
+        } else if (categoryType == CategoryType.LONG_TERNS_SAVING) {
+            return new LongSaving();
+        } else if (categoryType == CategoryType.LIFESTYLE_CHOICE) {
+            return new LifeStyleChoices();
+        }
 
-        categories.add(necessity);
-        categories.add(longTernSaving);
-        categories.add(lifeStyleChoice);
-
-        return categories;
+        return new NecessityFund();
     }
+
+
 
     // == private methods ==
 
