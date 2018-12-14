@@ -1,37 +1,116 @@
 package factory;
 
+import calculation.EndOfMonth;
 import category.LifeStyleChoices;
 import category.LongSaving;
 import category.NecessityFund;
 import category.SpecificFund;
-import item.*;
-import wrting_data.WriteData;
+import item.Base;
+import item.CategoryType;
+import item.Expense;
+import item.Income;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
+import utilities.Utilities;
+import wrting_read_data.WriteReadData;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Factory {
 
     // == constants ==
-    private WriteData writeData;
+    private WriteReadData writeReadData;
+    private Utilities utilities;
 
     // == constructor ==
-    public Factory(WriteData writeData){
-        this.writeData = writeData;
+    public Factory(WriteReadData writeReadData, Utilities utilities) {
+        this.writeReadData = writeReadData;
+        this.utilities = utilities;
     }
 
     // == public methods ==
-    public Base createItem(TypeExpense typeExpense, String nameItem, double amount) throws IOException {
-        Base item = new Expense(typeExpense, nameItem, amount);
-        // write new item to items file
-        writeData.appendToItems(item.getDate(), item.getNameItem(), item.getTypeMoneyFlow(), ((Expense) item).getTypeExpense(), item.getAmount(), item.getDescription());
-        return item;
+    public EndOfMonth loadStatement() throws IOException {
+        ArrayList<Base> items = new ArrayList<>();
+        String accountNumber = "";
+        String fromTo = "";
+        EndOfMonth endOfMonth = new EndOfMonth();
+
+        try {
+            PDDocument document = PDDocument.load(new File("BankMobile_11-15.pdf"));// here file1.pdf is the name of pdf file which we want to read....
+            document.getClass();
+            if (!document.isEncrypted()) {
+                PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+                stripper.setSortByPosition(true);
+
+                PDFTextStripper Tstripper = new PDFTextStripper();
+                String str = Tstripper.getText(document);
+
+                Scanner scn;
+                scn = new Scanner(str);
+                String line;
+                int count = 1;
+                while (scn.hasNextLine()) {
+                    line = scn.nextLine();
+
+                    String[] splitLine = line.split(" ");
+
+                    if (accountNumber == ""){
+                        if (utilities.defineAccountNumberString(line)) {
+                            accountNumber = buildAccountNumber(splitLine);
+                        }
+                    }
+
+                    if (fromTo == ""){
+                        if (utilities.defineFromTo(line)){
+                            fromTo = line;
+                        }
+                    }
+
+                    if (splitLine.length > 0) {
+                        String referenceNumber = splitLine[0].trim();
+
+                        if (utilities.defineReferenceNumberSpending(referenceNumber) || (utilities.defineReferenceNumberReward(referenceNumber))) {
+
+                            String des = buildDescription(splitLine).toString();
+                            double amount = 0.0;
+                            if (utilities.defineAmount(splitLine[splitLine.length - 1])){
+                                amount = utilities.convertStringToDouble(splitLine[splitLine.length - 1]);
+                            }
+                            Expense expense = new Expense(splitLine[0],des, splitLine[1], splitLine[2], amount);
+                            items.add(expense);
+                        }
+                    }
+
+                     endOfMonth.setAccountNumber(accountNumber);
+                     endOfMonth.setFromTo(fromTo);
+                     endOfMonth.setItems(items);
+
+                }
+            }
+            document.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("\n***Bank statement has been loaded.***\n");
+        }
+
+        return endOfMonth;
     }
 
-    public Base createItem(String nameItem, double amount) throws IOException{
-        Base item = new Income(nameItem, amount);
-        // write new item to items file
-        writeData.appendToItems(item.getDate(), item.getNameItem(), item.getTypeMoneyFlow(), item.getAmount(), item.getDescription());
-        return item;
+    public Base createExpense(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) throws IOException {
+        Expense expense = new Expense(referenceNumber, descriptionOrCredit, transDate, postDate, amount);
+//        writeReadData.appendToItems(expense);
+        return expense;
+    }
+
+    public Base createIncome(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) throws IOException {
+        Income income = new Income(referenceNumber, descriptionOrCredit, transDate, postDate, amount);
+//        writeReadData.appendToItems(income);
+        return income;
     }
 
     public SpecificFund createCategories(CategoryType categoryType) {
@@ -46,8 +125,25 @@ public class Factory {
         return new NecessityFund();
     }
 
-
-
     // == private methods ==
+    private String buildAccountNumber(String[] strings){
+        StringBuilder accountNumber = new StringBuilder();
+        for (String string:strings){
+            if (utilities.defineAccountNumber(string)){
+                accountNumber.append(string + " ");
+            }
+        }
+        return accountNumber.toString();
+    }
+
+
+    private StringBuilder buildDescription(String[] strings) {
+        StringBuilder des = new StringBuilder();
+        for (int i = 3; i < strings.length - 1; i++) {
+            des.append(strings[i] + " ");
+        }
+
+        return des;
+    }
 
 }

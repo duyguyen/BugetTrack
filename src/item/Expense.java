@@ -6,9 +6,8 @@ public class Expense extends Base{
     private TypeExpense typeExpense;
 
     // == constructor ==
-    public Expense(TypeExpense typeExpense, String nameItem, double amount) {
-        super(TypeMoneyFlow.EXPENSE, nameItem, amount);
-        this.typeExpense = typeExpense;
+    public Expense(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) {
+        super(referenceNumber, descriptionOrCredit, transDate, postDate, amount, TypeMoneyFlow.EXPENSE);
     }
 
     // == public methods ==

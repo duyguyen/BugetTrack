@@ -40,15 +40,7 @@ public class Statistic {
 //        return Math.round(convertToPercent*calculateMoneyLeft());
 //    }
 
-    public double calculateLunchEachDay(){
-        double lunchEachDay = 0;
-        for (Base item: items){
-            if (item.getNameItem().toString().equalsIgnoreCase("lunch")){
-                lunchEachDay = Math.round(item.getAmount() / 30.0);
-            }
-        }
-        return lunchEachDay;
-    }
+
 
     public double calculateAfterFixedExpense(){
         return Math.round(totalIncome - totalFixedExpense);

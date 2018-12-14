@@ -1,25 +1,31 @@
-package wrting_data;
+package wrting_read_data;
 
 import item.Base;
 import item.Expense;
-import item.TypeExpense;
-import item.TypeMoneyFlow;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
+import utilities.Utilities;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Scanner;
 
-public class WriteData {
+public class WriteReadData {
 
     // == constance variables ==
     private ArrayList<Base> items;
+    private Utilities utilities;
 
     // == constructor ==
-    public WriteData(ArrayList<Base> items) {
+    public WriteReadData(ArrayList<Base> items, Utilities utilities) {
         this.items = items;
+        this.utilities = utilities;
     }
 
     // == public methods ==
+
+
     public void printItem() throws IOException {
         try {
             PrintWriter writer = new PrintWriter("items.txt", "UTF-8");
@@ -35,11 +41,7 @@ public class WriteData {
                     typeExpense = convert.getTypeExpense().toString();
                 }
 
-                line = count + ". " + item.getDate() + " :: " + item.getNameItem() + " :: " +
-                        item.getTypeMoneyFlow() + " :: " +
-                        typeExpense + " :: " +
-                        item.getAmount() + " :: " +
-                        item.getDescription();
+                line = count + ". " ;
 
                 writer.println(line);
                 count++;
@@ -61,13 +63,12 @@ public class WriteData {
 
             String typeExpense = "NONE";
 
-            if (item.getTypeMoneyFlow().isExpense()){
-                Expense convert = (Expense)item;
+            if (item.getTypeMoneyFlow().isExpense()) {
+                Expense convert = (Expense) item;
                 typeExpense = convert.getTypeExpense().toString();
             }
 
-            String line = item.getDate()+ " :: " + item.getNameItem() + " :: " + item.getTypeMoneyFlow() + " :: " +
-                    "TypeExpense"+ " :: " + item.getAmount() + " :: " + item.getDescription();
+            String line = "";
             out.println(line);
             out.close();
         } catch (IOException e) {
@@ -77,13 +78,16 @@ public class WriteData {
         }
     }
 
-    public  void clearItems() throws IOException{
+    public void clearItems() throws IOException {
         try {
             PrintWriter writer = new PrintWriter(new File("items.txt"));
             writer.print("");
             writer.close();
-        }catch (IOException e){
+            System.out.println("Data has been clear.");
+        } catch (IOException e) {
             System.out.println("Error: " + e);
         }
     }
+
+    // == private methods ==
 }

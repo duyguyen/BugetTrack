@@ -2,10 +2,8 @@ package item;
 
 public class Income extends Base {
 
-    // == constance variables ==
-
     // == constructor ==
-    public Income(String nameItem, double amount) {
-        super(TypeMoneyFlow.INCOME, nameItem, amount);
+    public Income(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) {
+        super(referenceNumber, descriptionOrCredit, transDate, postDate, amount, TypeMoneyFlow.INCOME);
     }
 }

@@ -1,56 +1,54 @@
 package item;
 
-import item.TypeExpense;
-import item.TypeMoneyFlow;
+import utilities.Utilities;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public abstract class Base {
 
     // == constance variables ==
-
-    private StringBuilder description;
-    private Date date;
+    private String referenceNumber;
+    private String descriptionOrCredit;
+    private String transDate;
+    private String postDate;
     private double amount;
-    private StringBuilder nameItem;
     private TypeMoneyFlow typeMoneyFlow;
     private CategoryType categoryType;
 
     // == constructor ==
-    public Base(TypeMoneyFlow typeMoneyFlow, String nameItem, double amount){
-        this.typeMoneyFlow = typeMoneyFlow;
-        this.nameItem = new StringBuilder(nameItem);
+    public Base(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount, TypeMoneyFlow typeMoneyFlow) {
+        this.referenceNumber = referenceNumber;
+        this.descriptionOrCredit = descriptionOrCredit;
+        this.transDate = transDate;
+        this.postDate = postDate;
         this.amount = amount;
+        this.typeMoneyFlow = typeMoneyFlow;
     }
 
     // == public methods ==
-
-    public TypeMoneyFlow getTypeMoneyFlow() {
-        return typeMoneyFlow;
+    public String getReferenceNumber() {
+        return referenceNumber;
     }
 
-    public StringBuilder getDescription() {
-        return description;
+    public String getDescriptionOrCredit() {
+        return descriptionOrCredit;
     }
 
-    public Date getDate() {
-        return date;
+    public String getTransDate() {
+        return transDate;
+    }
+
+    public String getPostDate() {
+        return postDate;
     }
 
     public double getAmount() {
         return amount;
     }
 
-    public StringBuilder getNameItem() {
-        return nameItem;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public void setCategoryType(CategoryType categoryType) {
-        this.categoryType = categoryType;
+    public TypeMoneyFlow getTypeMoneyFlow() {
+        return typeMoneyFlow;
     }
 
     public CategoryType getCategoryType() {
