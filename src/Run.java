@@ -1,8 +1,10 @@
 import calculation.EndOfMonth;
 import factory.Factory;
+import utilities.ReadPdfToText;
 import utilities.Utilities;
 import utilities.WriteReadData;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,6 +19,8 @@ public class Run {
     Scanner scanner = new Scanner(System.in);
     private boolean continueToAdd = true;
 
+    private ReadPdfToText readPdfToText;
+
 
     // == constructor ==
     public Run() throws IOException {
@@ -25,11 +29,10 @@ public class Run {
 
     // == init ==
     private void init() throws IOException {
-        utilities = new Utilities();
-        writeReadData = new WriteReadData();
+        factory = new Factory();
 
-
-        factory = new Factory(utilities, writeReadData);
+        // if has a new statement
+//        readPdfToText = new ReadPdfToText(new File("BankMobile_10-15.pdf"));
 
         createItems();
     }
@@ -77,7 +80,7 @@ public class Run {
 
 //            System.out.println(endOfMonth.theTopStore());
 //            System.out.println("Sum expense: " + endOfMonth.sumExpense());
-            endOfMonth.totalEachTop();
+//            endOfMonth.totalEachTop();
 //            System.out.println(endOfMonth.storeDensity());
 
 //            System.out.println(
@@ -120,7 +123,8 @@ public class Run {
 
     // == private methods ==
     private void createItems() throws IOException {
-        this.endOfMonths.add(factory.loadStatement());
+//        this.endOfMonths.add(factory.loadStatement());
+        factory.loadStatement(new File("items.txt"));
     }
 
     private void addProcess() throws IOException {
