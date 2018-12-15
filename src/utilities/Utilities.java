@@ -8,37 +8,20 @@ import utilities.script_files.IntegerGeneric;
 public class Utilities{
 
     // == constants ==
-    private IntegerGeneric scriptInteger;
-    private DoubleGeneric doubleGeneric;
+
 
     // == constructor ==
-    public Utilities(IntegerGeneric scriptInteger, DoubleGeneric doubleGeneric){
-        this.scriptInteger = scriptInteger;
-        this.doubleGeneric = doubleGeneric;
+    public Utilities(){
     }
+
 
     // == public methods ==
     public static StringBuilder convertStringToStringBuilder(String string) {
         return new StringBuilder(string);
     }
 
-    public TypeMoneyFlow buildTypeMoneyFlow(int i) {
-        return scriptInteger.buildTypeMoneyFlow(i);
-    }
-
-    public TypeExpense buildTypeExpense(int i) {
-        return scriptInteger.buildTypeExpense(i);
-    }
-
-    public double buildAmount(double amount){
-        return doubleGeneric.amount(amount);
-    }
-
     public boolean defineReferenceNumberSpending(String str){
         return str.matches("\\d{7}.{10}");
-
-//        [A-Z]\d{6}.{5}[F][R] for CREDIT ONE REWARD CREDIT LAS VEGA CREDIT
-//         \\d{7}.{10} normal spending
     }
 
     public boolean defineReferenceNumberReward(String str){

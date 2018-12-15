@@ -1,6 +1,6 @@
 package item;
 
-public class Expense extends Base{
+public class Expense extends Item {
 
     // == constance variable ==
     private TypeExpense typeExpense;

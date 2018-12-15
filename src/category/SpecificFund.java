@@ -1,6 +1,6 @@
 package category;
 
-import item.Base;
+import item.Item;
 import item.CategoryType;
 
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ public abstract class SpecificFund {
     // == constance variables ==
     private CategoryType categoryType;
     private double totalMoney;
-    private ArrayList<Base> items = new ArrayList<>();
+    private ArrayList<Item> items = new ArrayList<>();
 
     // == constructor ==
     public SpecificFund(CategoryType categoryType) {
@@ -18,7 +18,7 @@ public abstract class SpecificFund {
     }
 
     // == public methods ==
-    public void addItem(Base item){
+    public void addItem(Item item){
         items.add(item);
     }
 

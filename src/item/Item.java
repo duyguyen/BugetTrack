@@ -5,7 +5,7 @@ import utilities.Utilities;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public abstract class Base {
+public abstract class Item {
 
     // == constance variables ==
     private String referenceNumber;
@@ -17,7 +17,7 @@ public abstract class Base {
     private CategoryType categoryType;
 
     // == constructor ==
-    public Base(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount, TypeMoneyFlow typeMoneyFlow) {
+    public Item(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount, TypeMoneyFlow typeMoneyFlow) {
         this.referenceNumber = referenceNumber;
         this.descriptionOrCredit = descriptionOrCredit;
         this.transDate = transDate;

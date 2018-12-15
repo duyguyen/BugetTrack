@@ -1,6 +1,6 @@
 package item;
 
-public class Income extends Base {
+public class Income extends Item {
 
     // == constructor ==
     public Income(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) {

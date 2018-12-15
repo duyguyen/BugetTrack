@@ -1,19 +1,20 @@
 package calculation;
 
-import item.Base;
-import utilities.Utilities;
+import item.Item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class EndOfMonth {
 
     // == constants ==
     private String accountNumber;
     private String fromTo;
-    private ArrayList<Base> items;
+    private Statistic statistic = new Statistic();
+    private ArrayList<Item> items;
 
     // == constructor ==
-    public EndOfMonth(ArrayList<Base> items, String fromTo, String accountNumber) {
+    public EndOfMonth(ArrayList<Item> items, String fromTo, String accountNumber) {
         this.fromTo = fromTo;
         this.items = items;
         this.accountNumber = accountNumber;
@@ -24,7 +25,31 @@ public class EndOfMonth {
         this(null, null, null);
     }
 
+    // == private methods ==
+
+
     // == public methods ==
+    public void totalEachTop(){
+        statistic.totalOfTopStore(items, theTopStore());
+    }
+
+    public double sumExpense(){
+        return statistic.sumExpense(items);
+    }
+
+    public StringBuilder theTopStore() { // the top stores that visiting
+        return statistic.theTopStore(statistic.desDensity(items));
+    }
+
+    public StringBuilder storeDensity() {
+        StringBuilder stringBuilder = new StringBuilder();
+        HashMap<String, Integer> stores = statistic.desDensity(items);
+        for (String name : stores.keySet()) {
+            stringBuilder.append(name + " : " + stores.get(name) + "\n");
+        }
+
+        return stringBuilder;
+    }
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -34,7 +59,7 @@ public class EndOfMonth {
         this.fromTo = fromTo;
     }
 
-    public void setItems(ArrayList<Base> items) {
+    public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
 
@@ -46,10 +71,8 @@ public class EndOfMonth {
         return fromTo;
     }
 
-    public ArrayList<Base> getItems() {
+    public ArrayList<Item> getItems() {
         return items;
     }
-
-    // == private methods ==
 
 }

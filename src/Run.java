@@ -1,11 +1,7 @@
 import calculation.EndOfMonth;
-import calculation.Statistic;
 import factory.Factory;
-import item.Base;
 import utilities.Utilities;
-import utilities.script_files.DoubleGeneric;
-import utilities.script_files.IntegerGeneric;
-import wrting_read_data.WriteReadData;
+import utilities.WriteReadData;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,9 +12,8 @@ public class Run {
     // == constance variables ==
     private ArrayList<EndOfMonth> endOfMonths = new ArrayList<>();
     private Factory factory;
-    private Statistic statistic;
-    private WriteReadData writeReadData;
     private Utilities utilities;
+    private WriteReadData writeReadData;
     Scanner scanner = new Scanner(System.in);
     private boolean continueToAdd = true;
 
@@ -30,8 +25,11 @@ public class Run {
 
     // == init ==
     private void init() throws IOException {
-        utilities = new Utilities(new IntegerGeneric(), new DoubleGeneric());
-        factory = new Factory(writeReadData, utilities);
+        utilities = new Utilities();
+        writeReadData = new WriteReadData();
+
+
+        factory = new Factory(utilities, writeReadData);
 
         createItems();
     }
@@ -76,7 +74,24 @@ public class Run {
         int count = 1;
         int countItem = 1;
         for (EndOfMonth endOfMonth: endOfMonths){
-            System.out.println(
+
+//            System.out.println(endOfMonth.theTopStore());
+//            System.out.println("Sum expense: " + endOfMonth.sumExpense());
+            endOfMonth.totalEachTop();
+//            System.out.println(endOfMonth.storeDensity());
+
+//            System.out.println(
+//                    "Sum expense: " +endOfMonth.getSumExpense()
+//            );
+//
+//            for (String name:endOfMonth.getDensityPlaces().keySet()){
+//                System.out.println(name + " : " + endOfMonth.getDensityPlaces().get(name));
+//            }
+
+
+
+
+         /*   System.out.println(
                     count + ". "
                     + endOfMonth.getAccountNumber()
                     + " : " + endOfMonth.getFromTo()
@@ -84,7 +99,7 @@ public class Run {
 
             );
 
-            for (Base item:endOfMonth.getItems()){
+            for (Item item:endOfMonth.getItems()){
 
                 System.out.println(
                         "   " +
@@ -98,7 +113,7 @@ public class Run {
                         + " : " + item.getAmount()
                 );
                 countItem++;
-            }
+            }*/
         }
 
     }
@@ -142,10 +157,6 @@ public class Run {
 
     private void setContinueToAdd(boolean continueToAdd) {
         this.continueToAdd = continueToAdd;
-    }
-
-    private void clearDataInItemTxt() throws IOException {
-        writeReadData.clearItems();
     }
 
 }

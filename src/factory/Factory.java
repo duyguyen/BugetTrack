@@ -5,7 +5,7 @@ import category.LifeStyleChoices;
 import category.LongSaving;
 import category.NecessityFund;
 import category.SpecificFund;
-import item.Base;
+import item.Item;
 import item.CategoryType;
 import item.Expense;
 import item.Income;
@@ -13,7 +13,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import utilities.Utilities;
-import wrting_read_data.WriteReadData;
+import utilities.WriteReadData;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,18 +23,18 @@ import java.util.Scanner;
 public class Factory {
 
     // == constants ==
-    private WriteReadData writeReadData;
     private Utilities utilities;
+    private WriteReadData writeReadData;
 
     // == constructor ==
-    public Factory(WriteReadData writeReadData, Utilities utilities) {
-        this.writeReadData = writeReadData;
+    public Factory(Utilities utilities, WriteReadData writeReadData) {
         this.utilities = utilities;
+        this.writeReadData = writeReadData;
     }
 
     // == public methods ==
     public EndOfMonth loadStatement() throws IOException {
-        ArrayList<Base> items = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<>();
         String accountNumber = "";
         String fromTo = "";
         EndOfMonth endOfMonth = new EndOfMonth();
@@ -90,6 +90,9 @@ public class Factory {
                      endOfMonth.setItems(items);
 
                 }
+
+                // calculate values
+//                endOfMonth.calculateValues();
             }
             document.close();
         } catch (Exception e) {
@@ -98,16 +101,19 @@ public class Factory {
             System.out.println("\n***Bank statement has been loaded.***\n");
         }
 
+        // write data to items.txt
+//        writeReadData.printItem(endOfMonth);
+
         return endOfMonth;
     }
 
-    public Base createExpense(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) throws IOException {
+    public Item createExpense(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) throws IOException {
         Expense expense = new Expense(referenceNumber, descriptionOrCredit, transDate, postDate, amount);
 //        writeReadData.appendToItems(expense);
         return expense;
     }
 
-    public Base createIncome(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) throws IOException {
+    public Item createIncome(String referenceNumber, String descriptionOrCredit, String transDate, String postDate, double amount) throws IOException {
         Income income = new Income(referenceNumber, descriptionOrCredit, transDate, postDate, amount);
 //        writeReadData.appendToItems(income);
         return income;

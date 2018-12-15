@@ -1,52 +1,49 @@
-package wrting_read_data;
+package utilities;
 
-import item.Base;
+import calculation.EndOfMonth;
+import item.Item;
 import item.Expense;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
-import org.apache.pdfbox.text.PDFTextStripperByArea;
-import utilities.Utilities;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class WriteReadData {
 
     // == constance variables ==
-    private ArrayList<Base> items;
-    private Utilities utilities;
+
 
     // == constructor ==
-    public WriteReadData(ArrayList<Base> items, Utilities utilities) {
-        this.items = items;
-        this.utilities = utilities;
+    public WriteReadData() {
     }
 
     // == public methods ==
-
-
-    public void printItem() throws IOException {
+    public void printItem(EndOfMonth endOfMonths) throws IOException {
         try {
             PrintWriter writer = new PrintWriter("items.txt", "UTF-8");
             int count = 1;
 
-            String line;
-            String typeExpense = "NONE";
+            String itemDisplay;
+            String fromTo;
+            String accountNumbers;
 
-            for (Base item : items) {
+//            for (EndOfMonth endOfMonth : endOfMonths) {
+                fromTo = endOfMonths.getFromTo();
+                accountNumbers = endOfMonths.getAccountNumber();
 
-                if (item.getTypeMoneyFlow().isExpense()) {
-                    Expense convert = (Expense) item;
-                    typeExpense = convert.getTypeExpense().toString();
+                writer.println(fromTo);
+                writer.println(accountNumbers + "\n");
+                for (Item item : endOfMonths.getItems()) {
+                    itemDisplay = item.getReferenceNumber()
+                            + " :: " + item.getTransDate()
+                            + " :: " + item.getPostDate()
+                            + " :: " + item.getTypeMoneyFlow()
+                            + " :: " + item.getCategoryType()
+                            + " :: " + item.getDescriptionOrCredit()
+                            + " :: " + item.getAmount()
+                            + "\n";
+                    writer.println(itemDisplay);
                 }
-
-                line = count + ". " ;
-
-                writer.println(line);
-                count++;
-                typeExpense = "NONE";
-            }
+                System.out.println("\n");
+//            }
 
 
             writer.close();
@@ -57,7 +54,7 @@ public class WriteReadData {
         }
     }
 
-    public void appendToItems(Base item) throws IOException {
+    public void appendToItems(Item item) throws IOException {
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("items.txt", true)));
 

@@ -1,7 +1,7 @@
 package generic;
 
-import item.Base;
+import item.Item;
 
 public interface Generic<T> {
-    void add(T category, Base item);
+    void add(T category, Item item);
 }

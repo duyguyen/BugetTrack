@@ -1,12 +1,12 @@
 package generic;
 
 import category.SpecificFund;
-import item.Base;
+import item.Item;
 
 public class AddItemToCategory implements Generic<SpecificFund> {
 
     @Override
-    public void add(SpecificFund specificFund, Base item) {
+    public void add(SpecificFund specificFund, Item item) {
         specificFund.addItem(item);
     }
 }
