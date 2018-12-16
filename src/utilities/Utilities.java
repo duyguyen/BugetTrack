@@ -40,8 +40,12 @@ public class Utilities{
         return string.matches("[a-zA-Z]+\\s[a-zA-Z]+\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}");
     }
 
+//    public static boolean defineAnItemLine(String string){
+//        return string.matches("(?s).*\\b[A-Z]\\d{6}.{5}[F][R]\\b.+||(?s).*\\b\\d{7}.{10}\\b.+||[A-Z]\\d{6}.{5}[F][R]");
+//    }
+
     public static boolean defineAnItemLine(String string){
-        return string.matches("(?s).*\\b[A-Z]\\d{6}.{5}[F][R]\\b.+||(?s).*\\b\\d{7}.{10}\\b.+||[A-Z]\\d{6}.{5}[F][R]");
+        return string.matches("(?s).*\\b[0-9]{2}/[0-9]{2} [0-9]{2}/[0-9]{2} \\b.+");
     }
 
     public  static boolean defineAccountNumber(String string){

@@ -24,11 +24,14 @@ public class EndOfMonth {
     public EndOfMonth() {
         this(null, null, null);
     }
-
     // == private methods ==
 
 
     // == public methods ==
+    public void measureVaData(){
+        statistic.calculate(items);
+    }
+
     public void totalEachTop(){
         statistic.totalOfTopStore(items, theTopStore());
     }
