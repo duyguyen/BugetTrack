@@ -10,6 +10,7 @@ public class Store implements Comparable<Store> {
     private boolean isPayingDebt;
     private boolean isHighSpending;
     private boolean isTheTopStore;
+    private double percentOnTotalExpense;
 
     // == constructor ==
     public Store(String name, int density, double totalSpending) {
@@ -18,7 +19,7 @@ public class Store implements Comparable<Store> {
         this.totalSpending = totalSpending;
         setSortValue(); // for sorting
         defineIsPayingDebt(totalSpending);
-        defineIsHighSpending(totalSpending);
+        defineIsHighSpending(totalSpending, density);
     }
 
     // == private methods ==
@@ -26,8 +27,8 @@ public class Store implements Comparable<Store> {
         this.sortValue = (int) totalSpending;
     }
 
-    private void defineIsHighSpending(double totalSpending) {
-        if (totalSpending > 30.00) {
+    private void defineIsHighSpending(double totalSpending, int density) {
+        if (totalSpending > 40.00 && density == 1) {
             isHighSpending = true;
         }
     }
@@ -39,11 +40,14 @@ public class Store implements Comparable<Store> {
     }
 
     // == public methods ==
-
-
     @Override
     public int compareTo(Store o) {
         return this.sortValue - o.sortValue;
+    }
+
+    public void setPercentOnTotalExpense(double totalExpenseOnEveryStore){
+        double percent = (totalSpending*100)/totalExpenseOnEveryStore;
+        System.out.println(percent);
     }
 
     public boolean isHighSpending() {
@@ -64,5 +68,13 @@ public class Store implements Comparable<Store> {
 
     public boolean isPayingDebt() {
         return isPayingDebt;
+    }
+
+    public void setTheTopStore(boolean isTheTopStore){
+        this.isTheTopStore = isTheTopStore;
+    }
+
+    public boolean isTheTopStore() {
+        return isTheTopStore;
     }
 }

@@ -37,27 +37,31 @@ public class Run {
 
     // == public methods ==
     public void print() {
-
-
-        for (Store store : endOfMonth.getStores()) {
-          /*  System.out.println(
-                    store.getName() +
-                            " : " + store.getDensity() +
-                            " : " + store.getTotalSpending() +
-                            " : " + store.isPayingDebt()
-            );*/
-
-           if (store.isHighSpending()){
-//               System.out.println(store.getName() + " : " + store.getTotalSpending());
-           }
-        }
-
-//        System.out.println(endOfMonth.getSumPayingDebt());
-//        System.out.println(endOfMonth.getSumExpense());
+//        printOut();
 
     }
 
     // == private methods ==
+    private void printOut(){
+        System.out.println("*Period: ".toUpperCase() + endOfMonth.getPeriod());
+        System.out.println("*Account numbers: ".toUpperCase() + endOfMonth.getAccountNumber());
+        System.out.println("---------------------------------------------\n");
+
+        System.out.println("*Total internet payment: ".toUpperCase() + endOfMonth.getSumPayingDebt() + " $");
+        System.out.println("*Total spending on things: ".toUpperCase() + endOfMonth.getSumExpense() + " $\n");
+
+
+        for (Store store : endOfMonth.getStores()) {
+            if (store.isTheTopStore()) {
+                System.out.println("\n*The top store by density: ".toUpperCase() + store.getName().toLowerCase() + " : " + store.getTotalSpending() + " (" + store.getDensity() +")");
+
+            }
+            if (store.isHighSpending()) {
+                System.out.println("*The high spending with once density: ".toUpperCase() + store.getName().toLowerCase() + " : " + store.getTotalSpending());
+            }
+        }
+    }
+
     private void createItems() throws IOException {
         this.endOfMonth = factory.loadStatement(new File("items.txt"));
     }

@@ -37,6 +37,8 @@ public class EndOfMonth {
                 sumPayingDebt += store.getTotalSpending();
             } else {
                 sumExpense += store.getTotalSpending();
+
+                store.setPercentOnTotalExpense(sumExpense);
             }
         }
     }

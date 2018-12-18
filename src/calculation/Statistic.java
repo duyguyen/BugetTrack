@@ -12,19 +12,19 @@ public class Statistic {
     // == public methods ==
     public void theTopStore(ArrayList<Store> stores) {
 
+        // set the top store
+        stores.get(stores.size()-1).setTheTopStore(true);
+
         double topSpending = 0.0;
         for (Store store:stores){
             if (!store.isPayingDebt()){
-                System.out.println(store.getName() + " : " + store.getTotalSpending());
+//                System.out.println(store.getName() + " : " + store.getTotalSpending());
                 if (topSpending<store.getTotalSpending()){
                     topSpending = store.getTotalSpending();
                 }
-
             }
-
-
         }
-        System.out.println(topSpending);
+//        System.out.println(topSpending);
 
     }
 
