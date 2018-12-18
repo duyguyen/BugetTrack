@@ -1,81 +1,76 @@
 package calculation;
 
 import item.Item;
+import stores.Store;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 
 public class EndOfMonth {
 
     // == constants ==
     private String accountNumber;
-    private String fromTo;
+    private String period;
+    private ArrayList<Store> stores;
     private Statistic statistic = new Statistic();
     private ArrayList<Item> items;
 
+    private double sumPayingDebt;
+    private double sumExpense;
+
     // == constructor ==
-    public EndOfMonth(ArrayList<Item> items, String fromTo, String accountNumber) {
-        this.fromTo = fromTo;
+    public EndOfMonth(ArrayList<Item> items, String period, String accountNumber) {
+        this.period = period;
         this.items = items;
         this.accountNumber = accountNumber;
+        createStores(); // create stores after having items
+        Collections.sort(stores);
+        sumTotalSpending(); // sum total spending of paying debt or spending
+        measureVaData();
 
     }
 
-    public EndOfMonth() {
-        this(null, null, null);
-    }
     // == private methods ==
-
+    public void sumTotalSpending() {
+        for (Store store : stores) {
+            if (store.isPayingDebt()) {
+                sumPayingDebt += store.getTotalSpending();
+            } else {
+                sumExpense += store.getTotalSpending();
+            }
+        }
+    }
 
     // == public methods ==
-    public void measureVaData(){
-        statistic.calculate(items);
+    public void measureVaData() {
+        statistic.theTopStore(stores);
     }
 
-    public void totalEachTop(){
-        statistic.totalOfTopStore(items, theTopStore());
-    }
-
-    public double sumExpense(){
-        return statistic.sumExpense(items);
-    }
-
-    public StringBuilder theTopStore() { // the top stores that visiting
-        return statistic.theTopStore(statistic.desDensity(items));
-    }
-
-    public StringBuilder storeDensity() {
-        StringBuilder stringBuilder = new StringBuilder();
-        HashMap<String, Integer> stores = statistic.desDensity(items);
-        for (String name : stores.keySet()) {
-            stringBuilder.append(name + " : " + stores.get(name) + "\n");
-        }
-
-        return stringBuilder;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public void setFromTo(String fromTo) {
-        this.fromTo = fromTo;
-    }
-
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
+    public void createStores() {
+        this.stores = statistic.createStores(items);
     }
 
     public String getAccountNumber() {
         return accountNumber;
     }
 
-    public String getFromTo() {
-        return fromTo;
+    public String getPeriod() {
+        return period;
     }
 
     public ArrayList<Item> getItems() {
         return items;
     }
 
+    public ArrayList<Store> getStores() {
+        return stores;
+    }
+
+    public double getSumExpense() {
+        return Math.round(sumExpense * 100.0) / 100.0;
+    }
+
+    public double getSumPayingDebt() {
+        return Math.round(sumPayingDebt * 100.0) / 100.0;
+    }
 }

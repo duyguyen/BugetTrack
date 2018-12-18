@@ -26,7 +26,7 @@ public class WriteReadData {
             String accountNumbers;
 
 //            for (EndOfMonth endOfMonth : endOfMonths) {
-                fromTo = endOfMonths.getFromTo();
+                fromTo = endOfMonths.getPeriod();
                 accountNumbers = endOfMonths.getAccountNumber();
 
                 writer.println(fromTo);

@@ -1,5 +1,6 @@
 import calculation.EndOfMonth;
 import factory.Factory;
+import stores.Store;
 import utilities.ReadPdfToText;
 
 import java.io.File;
@@ -37,26 +38,22 @@ public class Run {
     // == public methods ==
     public void print() {
 
-        endOfMonth.measureVaData();
 
-    /*    System.out.println(
-                endOfMonth.getAccountNumber()
-                        + " : " + endOfMonth.getFromTo().toUpperCase()
-                        + " : " + endOfMonth.getItems().size() + "\n"
-        );
+        for (Store store : endOfMonth.getStores()) {
+          /*  System.out.println(
+                    store.getName() +
+                            " : " + store.getDensity() +
+                            " : " + store.getTotalSpending() +
+                            " : " + store.isPayingDebt()
+            );*/
 
-        System.out.println(
-                "Top store: ".toUpperCase() + endOfMonth.theTopStore() + "\n"+
-                "Sum all spending: ".toUpperCase() + endOfMonth.sumExpense() + "\n"
+           if (store.isHighSpending()){
+//               System.out.println(store.getName() + " : " + store.getTotalSpending());
+           }
+        }
 
-//                "Stores density: " + endOfMonth.storeDensity() + "\n"
-
-        );*/
-
-
-//        System.out.println("Total each top: ".toUpperCase());
-//        endOfMonth.totalEachTop();
-
+//        System.out.println(endOfMonth.getSumPayingDebt());
+//        System.out.println(endOfMonth.getSumExpense());
 
     }
 
