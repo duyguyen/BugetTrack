@@ -1,5 +1,6 @@
 package calculation;
 
+import funds.FundBase;
 import item.Item;
 import stores.Store;
 
@@ -14,6 +15,7 @@ public class EndOfMonth {
     private ArrayList<Store> stores;
     private Statistic statistic = new Statistic();
     private ArrayList<Item> items;
+    private ArrayList<FundBase> funds = new ArrayList<>();
 
     private double sumPayingDebt;
     private double sumExpense;
@@ -37,19 +39,23 @@ public class EndOfMonth {
                 sumPayingDebt += store.getTotalSpending();
             } else {
                 sumExpense += store.getTotalSpending();
-
-                store.setPercentOnTotalExpense(sumExpense);
             }
         }
     }
 
     // == public methods ==
     public void measureVaData() {
-        statistic.theTopStore(stores);
+        statistic.theTopStore(stores); // figure out the mose spending store
+        statistic.percentStoreOnAllStores(stores, sumExpense); // calculate the percent spending of each store on total spending
+        this.funds = statistic.buildFunds(sumPayingDebt); // create funds for each month
     }
 
     public void createStores() {
         this.stores = statistic.createStores(items);
+    }
+
+    public ArrayList<FundBase> getFunds() {
+        return funds;
     }
 
     public String getAccountNumber() {

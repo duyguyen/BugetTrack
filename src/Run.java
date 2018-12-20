@@ -1,5 +1,6 @@
 import calculation.EndOfMonth;
 import factory.Factory;
+import funds.FundBase;
 import stores.Store;
 import utilities.ReadPdfToText;
 
@@ -39,10 +40,14 @@ public class Run {
     public void print() {
 //        printOut();
 
+        for (FundBase fundBase : endOfMonth.getFunds()) {
+            System.out.println(fundBase.getBudgetType() + ": " + fundBase.getPercentBudget() + " $");
+        }
+
     }
 
     // == private methods ==
-    private void printOut(){
+    private void printOut() {
         System.out.println("*Period: ".toUpperCase() + endOfMonth.getPeriod());
         System.out.println("*Account numbers: ".toUpperCase() + endOfMonth.getAccountNumber());
         System.out.println("---------------------------------------------\n");
@@ -53,13 +58,22 @@ public class Run {
 
         for (Store store : endOfMonth.getStores()) {
             if (store.isTheTopStore()) {
-                System.out.println("\n*The top store by density: ".toUpperCase() + store.getName().toLowerCase() + " : " + store.getTotalSpending() + " (" + store.getDensity() +")");
+                System.out.println("\n*The top store by density: ".toUpperCase() + store.getName().toLowerCase() + " : " + store.getTotalSpending() + " (" + store.getDensity() + ")");
 
             }
             if (store.isHighSpending()) {
                 System.out.println("*The high spending with once density: ".toUpperCase() + store.getName().toLowerCase() + " : " + store.getTotalSpending());
             }
         }
+        System.out.println("---------------------------------------------\n");
+
+
+        for (Store store : endOfMonth.getStores()) {
+            if (!store.isPayingDebt()) {
+                System.out.println(store.getName() + " (" + store.getTotalSpending() + ") : " + store.getPercentOnTotalExpense() + "%");
+            }
+        }
+
     }
 
     private void createItems() throws IOException {

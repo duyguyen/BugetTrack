@@ -42,12 +42,18 @@ public class Store implements Comparable<Store> {
     // == public methods ==
     @Override
     public int compareTo(Store o) {
-        return this.sortValue - o.sortValue;
+//        return this.sortValue - o.sortValue;
+        return o.sortValue - this.sortValue;
     }
 
-    public void setPercentOnTotalExpense(double totalExpenseOnEveryStore){
-        double percent = (totalSpending*100)/totalExpenseOnEveryStore;
-        System.out.println(percent);
+    public void setPercentOnTotalExpense(double totalExpenseOnEveryStore) {
+        double percent = (totalSpending * 100) / totalExpenseOnEveryStore;
+        this.percentOnTotalExpense = (Math.round(percent * 100.0) / 100.0);
+//        System.out.println("Total on " + name + ": 0" + totalSpending + " TotalExpenseOnAveryStores: " + totalExpenseOnEveryStore);
+    }
+
+    public double getPercentOnTotalExpense() {
+        return percentOnTotalExpense;
     }
 
     public boolean isHighSpending() {
@@ -70,7 +76,7 @@ public class Store implements Comparable<Store> {
         return isPayingDebt;
     }
 
-    public void setTheTopStore(boolean isTheTopStore){
+    public void setTheTopStore(boolean isTheTopStore) {
         this.isTheTopStore = isTheTopStore;
     }
 

@@ -1,5 +1,6 @@
 package calculation;
 
+import funds.*;
 import item.Item;
 import stores.Store;
 
@@ -10,22 +11,36 @@ public class Statistic {
 
     // == constance variables ==
     // == public methods ==
-    public void theTopStore(ArrayList<Store> stores) {
+    public ArrayList<FundBase> buildFunds(double totalBudget){
+        ArrayList<FundBase> funds = new ArrayList<>();
+        funds.add(new Necessities(totalBudget, BudgetType.NECESSITIES));
+        funds.add(new LifeChoices(totalBudget, BudgetType.LIFE_CHOICES));
+        funds.add(new LongTernSaving(totalBudget, BudgetType.LONG_TERNS_SAVING));
 
+        return funds;
+    }
+
+    public void theTopStore(ArrayList<Store> stores) {
         // set the top store
-        stores.get(stores.size()-1).setTheTopStore(true);
+        stores.get(stores.size() - 1).setTheTopStore(true);
 
         double topSpending = 0.0;
-        for (Store store:stores){
-            if (!store.isPayingDebt()){
-//                System.out.println(store.getName() + " : " + store.getTotalSpending());
-                if (topSpending<store.getTotalSpending()){
+        for (Store store : stores) {
+            if (!store.isPayingDebt()) {
+                if (topSpending < store.getTotalSpending()) {
                     topSpending = store.getTotalSpending();
                 }
             }
         }
-//        System.out.println(topSpending);
+    }
 
+    public void percentStoreOnAllStores(ArrayList<Store> stores, double spendingOnAllStores) {
+        for (Store store : stores) {
+            if (store.isPayingDebt()){
+                continue;
+            }
+            store.setPercentOnTotalExpense(spendingOnAllStores);
+        }
     }
 
     public ArrayList<Store> createStores(ArrayList<Item> items) {
